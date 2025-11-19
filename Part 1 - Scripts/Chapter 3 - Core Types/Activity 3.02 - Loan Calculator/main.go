@@ -1,38 +1,26 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
-func main() {
-
-	monthlyIncome := 1000
-	loanAmount := 10000
-	loanTerm := 12
-	goodCreditScore := false
-	creditScore := 350
-	interestRate := 0.2
+func checkCredit(monthlyIncome int, loanAmount int, loanTerm int, creditScore int) error {
 
 	if creditScore < 0 || monthlyIncome < 0 || loanTerm < 0 || loanAmount < 0 {
-		fmt.Println("Cannot have a credit score, monthly income, loan term, or loan amount less than 0")
-		return
+		return errors.New("Cannot have a credit score, monthly income, loan term, or loan amount less than 0")
 	}
 	if loanTerm%12 != 0 {
-		fmt.Println("Loan term must be divisible by 12")
-		return
+		return errors.New("Loan Term Needs to be divisible by 12")
 	}
+
+	interestRate := 0.2
+
 	if creditScore >= 450 {
-		goodCreditScore = true
 		interestRate = 0.15
 	}
 
 	monthlyPayment := ((float64(loanAmount) * interestRate) / float64(loanTerm)) + (float64(loanAmount) / float64(loanTerm))
-
-	if monthlyPayment > (float64(monthlyIncome)*0.2) && goodCreditScore == true {
-		monthlyPayment = float64(monthlyIncome) * 0.2
-	}
-
-	if monthlyPayment > (float64(monthlyIncome)*0.1) && goodCreditScore == false {
-		monthlyPayment = float64(monthlyIncome) * 0.1
-	}
 
 	totalCost := (float64(loanAmount) * interestRate)
 	approved := true
@@ -51,5 +39,21 @@ func main() {
 	fmt.Println("Rate: ", interestRate*100)
 	fmt.Println("Total Cost ", totalCost)
 	fmt.Println("Approved: ", approved)
+
+	return nil
+}
+
+func main() {
+
+	// checkCredit Parameters are monthly income, loan amount, loan term, credit score
+	applicant1 := checkCredit(1000, 10000, 12, 350)
+	if applicant1 != nil {
+		fmt.Println(applicant1)
+	}
+	fmt.Println("")
+	applicant2 := checkCredit(1000, 1000, 24, 500)
+	if applicant2 != nil {
+		fmt.Println(applicant2)
+	}
 
 }
