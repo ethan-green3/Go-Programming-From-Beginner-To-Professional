@@ -53,7 +53,7 @@ func (d *Developer) devReview() float64 {
 		}
 	}
 
-	fmt.Printf("Total Score: %v\nLength of review map:%.2f\n", totalScore, float64(len(d.Review)))
+	//fmt.Printf("Total Score: %v\nLength of review map:%.2f\n", totalScore, float64(len(d.Review)))
 	return totalScore / float64(len(d.Review))
 }
 
@@ -84,6 +84,7 @@ func main() {
 	d.Review["Dependability"] = "Unsatisfactory"
 
 	r := d.devReview()
-	payDetails(&d)
-	fmt.Println(r)
+	fmt.Printf("%v %v got a review rating of %.2f\n", d.Individual.FirstName, d.Individual.LastName, r)
+	name, pay := d.Pay()
+	fmt.Printf("%v got paid %.2f for the year\n", name, pay)
 }
