@@ -45,20 +45,7 @@ func (d *Developer) devReview() float64 {
 	for _, v := range d.Review {
 		switch val := v.(type) {
 		case string:
-			switch val {
-			case "Excellent":
-				totalScore += 5
-			case "Good":
-				totalScore += 4
-			case "Fair":
-				totalScore += 3
-			case "Poor":
-				totalScore += 2
-			case "Unsatisfactory":
-				totalScore += 1
-			default:
-				fmt.Println("Not valid string score")
-			}
+			totalScore += float64(convertStringToInt(val))
 		case int:
 			totalScore += float64(val)
 		default:
@@ -68,6 +55,24 @@ func (d *Developer) devReview() float64 {
 
 	fmt.Printf("Total Score: %v\nLength of review map:%.2f\n", totalScore, float64(len(d.Review)))
 	return totalScore / float64(len(d.Review))
+}
+
+func convertStringToInt(str string) int {
+	switch str {
+	case "Excellent":
+		return 5
+	case "Good":
+		return 4
+	case "Fair":
+		return 3
+	case "Poor":
+		return 2
+	case "Unsatisfactory":
+		return 1
+	default:
+		fmt.Println("Invalid string")
+		return 0
+	}
 }
 
 func main() {
