@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/ethan-green3/printer"
+	//"github.com/ethan-green3/printer"
 )
 
 func main() {
-	msg := printer.PrintNewUUID()
-	fmt.Println(msg)
+	//msg := printer.PrintNewUUID()
+	fmt.Println("Hello")
 }
