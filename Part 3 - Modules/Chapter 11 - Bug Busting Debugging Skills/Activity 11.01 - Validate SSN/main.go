@@ -21,7 +21,7 @@ func checkSSNLength(ssn string) error {
 }
 
 func checkSSNPrefix(ssn string) error {
-	prefix := ssn[0:2]
+	prefix := ssn[0:3]
 	if prefix == "000" {
 		return ErrInvalidSSNPrefix
 	}
