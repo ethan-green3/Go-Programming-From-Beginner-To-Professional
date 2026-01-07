@@ -1,0 +1,44 @@
+package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+)
+
+type messageData struct {
+	Message string `json:"message"`
+}
+
+func postDataAndReturnResponse(msg messageData) messageData {
+	jsonBytes, err := json.Marshal(msg)
+	if err != nil {
+		log.Fatal(err)
+	}
+	r, err := http.Post("http://localhost:42069", "application/json", bytes.NewBuffer(jsonBytes))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer r.Body.Close()
+	data, err := io.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	message := messageData{}
+	err = json.Unmarshal(data, &message)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return message
+}
+
+func main() {
+	msg := messageData{Message: "Hi Server!"}
+	data := postDataAndReturnResponse(msg)
+	fmt.Println(data.Message)
+}
